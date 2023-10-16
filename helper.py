@@ -26,15 +26,24 @@ def create_environment(env_name: str):
     return env
 
 
+def generate_interpolation_factors(
+    img: np.ndarray, matrix: np.ndarray
+) -> Tuple[int, int]:
+    """
+    Generates the interpolation factors for a given matrix.
+    """
+    return img.shape[0] // matrix.shape[0], img.shape[1] // matrix.shape[1]
+
+
 def generate_checkerboard(
     img: np.ndarray, v: np.ndarray
 ) -> Tuple[np.ndarray, Tuple[int, int]]:
     """
     Generates a checkerboard pattern by mapping matrix V onto image img.
     """
-    size_y, size_x = img.shape[:2]
-    interpolation_factor_y = size_y // v.shape[0]
-    interpolation_factor_x = size_x // v.shape[1]
+    interpolation_factor_x, interpolation_factor_y = generate_interpolation_factors(
+        img, v
+    )
 
     # Broadcasting the smaller matrix V to the size of img
     checkerboard = np.repeat(
@@ -95,9 +104,14 @@ def visualize_p(
     env, v: np.ndarray, p: np.ndarray, action: Enum, ax, title: str
 ) -> None:
     """Visualizes the policy p and the of the given environment."""
-    v = v.reshape(env.unwrapped.desc.shape)
-    v_img, interp_factors = generate_checkerboard(env.render(), v)
-    v_img = ax.imshow(v_img, cmap=generate_colormap(), alpha=0.5)
+    if v is None:
+        interp_factors = generate_interpolation_factors(
+            env.render(), p.reshape(env.unwrapped.desc.shape)
+        )
+    else:
+        v = v.reshape(env.unwrapped.desc.shape)
+        v_img, interp_factors = generate_checkerboard(env.render(), v)
+        v_img = ax.imshow(v_img, cmap=generate_colormap(), alpha=0.5)
 
     s = np.arange(env.unwrapped.observation_space.n)
     labels = np.vectorize(lambda x: action(p[x]).name)(s).reshape(

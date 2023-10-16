@@ -4,6 +4,7 @@
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/karlkurzer/reinforcement_learning_workshop/HEAD)
 
 ## Local
+Requires [poetry](https://python-poetry.org/docs/) for dependency management.
 
 ### Setup
 

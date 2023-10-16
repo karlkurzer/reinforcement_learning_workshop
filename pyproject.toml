@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "reinforcement-learning-workshop"
+version = "1.0.0"
+description = "Interactive workshop on reinforcement learning. Starting out with the basic algorithms of policy iteration, value iteration and progressing to more complex ones, such as q-learning."
+authors = ["Karl Kurzer <karl.kurzer@visium.ch>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+gymnasium = {extras = ["toy-text"], version = "^0.29.1"}
+matplotlib = "^3.8.0"
+numpy = "^1.26.0"
+python = ">=3.11,<3.13"
+
+[tool.poetry.group.dev.dependencies]
+black = {extras = ["jupyter"], version = "^23.9.1"}
+ipykernel = "^6.25.2"
+isort = "^5.12.0"
+notebook = "^7.0.4"
+pylint = "^3.0.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
